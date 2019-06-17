@@ -3,10 +3,15 @@ import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
+import config from './../configs/index'
+
+const { CORS_PROXY, HOST } = config
+
 export const getItems = () => dispatch => {
   dispatch(setItemsLoading());
   axios
-    .get('/api/items')
+    // .get('/api/items')
+    .get(`${CORS_PROXY}${HOST}api/items`)
     .then(res =>
       dispatch({
         type: GET_ITEMS,
@@ -20,7 +25,8 @@ export const getItems = () => dispatch => {
 
 export const addItem = item => (dispatch, getState) => {
   axios
-    .post('/api/items', item, tokenConfig(getState))
+    // .post('/api/items', item, tokenConfig(getState))
+    .post(`${CORS_PROXY}${HOST}api/items`, item, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_ITEM,
@@ -34,7 +40,8 @@ export const addItem = item => (dispatch, getState) => {
 
 export const deleteItem = id => (dispatch, getState) => {
   axios
-    .delete(`/api/items/${id}`, tokenConfig(getState))
+    // .delete(`/api/items/${id}`, tokenConfig(getState))
+    .delete(`${CORS_PROXY}${HOST}api/items/${id}`, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: DELETE_ITEM,
